@@ -42,7 +42,7 @@ public class CategoryService
         var categories = _db.Categories.ToList();
         foreach (var category in categories)
         {
-            Console.WriteLine($"ID:{category.CategoryId}, Category Name: {category.CategoryName}, Description: {category.Description}");
+            Console.WriteLine($"ID:{category.CategoryId} Category Name: {category.CategoryName}, Description: {category.Description}");
         }
     }
 
