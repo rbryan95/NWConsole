@@ -25,10 +25,12 @@ try
         Console.WriteLine("3) Edit a specific category");
         Console.WriteLine("4) Display all Categories with active products");
         Console.WriteLine("5) Display specific Category with active products");
-        Console.WriteLine("6) Add Product");
-        Console.WriteLine("7) Edit Product");
-        Console.WriteLine("8) Display Products");
-        Console.WriteLine("9) Display a specific Product");
+        Console.WriteLine("6) Delete Category");
+        Console.WriteLine("7) Add Product");
+        Console.WriteLine("8) Edit Product");
+        Console.WriteLine("9) Display Products");
+        Console.WriteLine("10) Display a specific Product");
+        Console.WriteLine("11) Delete Product");
         Console.WriteLine("\"q\" to quit");
         choice = Console.ReadLine();
         Console.Clear();
@@ -75,13 +77,19 @@ try
         }
         else if (choice == "6")
         {
+            Console.WriteLine("Enter Category ID:");
+            int categoryId = int.Parse(Console.ReadLine());
+            categoryService.DeleteCategory(categoryId);
+        }
+        else if (choice == "7")
+        {
             Console.WriteLine("Enter Product Name:");
             string productName = Console.ReadLine();
             Console.WriteLine("Enter Discontinued (true or false):");
             bool isDiscontinued = bool.Parse(Console.ReadLine());
             productService.AddProduct(productName, isDiscontinued);
         }
-        else if (choice == "7")
+        else if (choice == "8")
         {
             Console.WriteLine("Enter Product Id:");
             int productId = int.Parse(Console.ReadLine());
@@ -91,13 +99,13 @@ try
             bool isDiscontinued = bool.Parse(Console.ReadLine());
             productService.EditProduct(productId, productName, isDiscontinued);
         }
-        else if (choice == "8")
+        else if (choice == "9")
         {
             Console.WriteLine("Enter filter (all, discontinued, active):");
             string filter = Console.ReadLine();
             productService.DisplayProducts(filter);
         }
-        else if (choice == "9")
+        else if (choice == "10")
         {
             Console.WriteLine("Enter 1 to search by name, 2 to search by ID:");
             string searchChoice = Console.ReadLine();
@@ -112,8 +120,14 @@ try
                 Console.WriteLine("Enter Product ID:");
                 int productId = int.Parse(Console.ReadLine());
                 productService.DisplayProduct(productId);
-}
+            }
         }
+        else if (choice == "11")
+        {
+                Console.WriteLine("Enter Product ID:");
+                int productId = int.Parse(Console.ReadLine());
+                productService.DeleteProduct(productId);
+         }
         Console.WriteLine();
     } while (choice.ToLower() != "q");
 
