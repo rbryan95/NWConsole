@@ -59,34 +59,48 @@ public class ProductService
     }
 
 // Display a specific Product by name
-public void DisplayProduct(string productName)
-{
-    var product = _db.Products.FirstOrDefault(p => p.ProductName == productName);
-    if (product != null)
+    public void DisplayProduct(string productName)
     {
-        Console.WriteLine($"Product ID: {product.ProductId}");
-        Console.WriteLine($"Product Name: {product.ProductName}");
-        Console.WriteLine($"Discontinued: {product.Discontinued}");
+        var product = _db.Products.FirstOrDefault(p => p.ProductName == productName);
+        if (product != null)
+        {
+            Console.WriteLine($"Product ID: {product.ProductId}");
+            Console.WriteLine($"Product Name: {product.ProductName}");
+            Console.WriteLine($"Discontinued: {product.Discontinued}");
+        }
+        else
+        {
+            Console.WriteLine($"No product found with name: {productName}");
+        }
     }
-    else
-    {
-        Console.WriteLine($"No product found with name: {productName}");
-    }
-}
 
 // Display a specific Product by ID
-public void DisplayProduct(int productId)
-{
-    var product = _db.Products.Find(productId);
-    if (product != null)
+    public void DisplayProduct(int productId)
     {
-        Console.WriteLine($"Product ID: {product.ProductId}");
-        Console.WriteLine($"Product Name: {product.ProductName}");
-        Console.WriteLine($"Discontinued: {product.Discontinued}");
+        var product = _db.Products.Find(productId);
+        if (product != null)
+        {
+            Console.WriteLine($"Product ID: {product.ProductId}");
+            Console.WriteLine($"Product Name: {product.ProductName}");
+            Console.WriteLine($"Discontinued: {product.Discontinued}");
+        }
+        else
+        {
+            Console.WriteLine($"No product found with ID: {productId}");
+        }
     }
-    else
+    public void DeleteProduct(int productId)
     {
-        Console.WriteLine($"No product found with ID: {productId}");
+        var product = _db.Products.Find(productId);
+        if (product != null)
+        {
+            _db.Products.Remove(product);
+            _db.SaveChanges();
+            _logger.Info($"Product with ID {productId} deleted");
+        }
+        else
+        {
+            _logger.Error($"No product found with ID: {productId}");
+        }
     }
-}
 }
