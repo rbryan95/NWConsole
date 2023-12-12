@@ -98,4 +98,22 @@ public class CategoryService
             Console.WriteLine($"No category found with name: {categoryName}");
         }
     }
+    public void DeleteCategory(int categoryId)
+    {
+        var category = _db.Categories.Include(c => c.Products).SingleOrDefault(c => c.CategoryId == categoryId);
+        if (category != null)
+        {
+            foreach (var product in category.Products)
+            {
+                product.CategoryId = null; // Set the CategoryId of the related products to null to prevent orphaned records
+            }
+            _db.Categories.Remove(category);
+            _db.SaveChanges();
+            _logger.Info($"Category with ID {categoryId} deleted");
+        }
+        else
+        {
+            _logger.Error($"No category found with ID: {categoryId}");
+        }
+    }
 }
