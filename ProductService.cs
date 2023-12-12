@@ -54,7 +54,7 @@ public class ProductService
 
     foreach (var product in products)
     {
-        Console.WriteLine($"{product.ProductName} {(product.Discontinued ? "(Discontinued)" : "")}");
+        Console.WriteLine($"ID: {product.ProductId}: {product.ProductName} {(product.Discontinued ? "(Discontinued)" : "")}");
     }
     }
 
@@ -89,18 +89,30 @@ public class ProductService
             Console.WriteLine($"No product found with ID: {productId}");
         }
     }
-    public void DeleteProduct(int productId)
+        public void DeleteProductById(int productId)
     {
-        var product = _db.Products.Find(productId);
-        if (product != null)
-        {
-            _db.Products.Remove(product);
-            _db.SaveChanges();
-            _logger.Info($"Product with ID {productId} deleted");
-        }
-        else
-        {
-            _logger.Error($"No product found with ID: {productId}");
-        }
+            var product = _db.Products.Find(productId);
+            if (product != null)
+            {
+                _db.Products.Remove(product);
+                _db.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine($"No product found with ID: {productId}");
+            }
+     }
+     public void DeleteProductByName(string productName)
+    {
+            var product = _db.Products.FirstOrDefault(p => p.ProductName == productName);
+            if (product != null)
+            {
+                _db.Products.Remove(product);
+                _db.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine($"No product found with name: {productName}");
+            }
     }
 }

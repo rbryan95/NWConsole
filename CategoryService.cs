@@ -52,7 +52,7 @@ public class CategoryService
         var categories = _db.Categories.Include(c => c.Products).ToList();
         foreach (var category in categories)
         {
-            Console.WriteLine($"Category Name: {category.CategoryName}");
+            Console.WriteLine($"ID: {category.CategoryId}: Category Name: {category.CategoryName}");
             var activeProducts = category.Products.Where(p => !p.Discontinued).ToList();
             foreach (var product in activeProducts)
             {
@@ -98,22 +98,30 @@ public class CategoryService
             Console.WriteLine($"No category found with name: {categoryName}");
         }
     }
-    public void DeleteCategory(int categoryId)
+    public void DeleteCategoryById(int categoryId)
     {
-        var category = _db.Categories.Include(c => c.Products).SingleOrDefault(c => c.CategoryId == categoryId);
+        var category = _db.Categories.Find(categoryId);
         if (category != null)
         {
-            foreach (var product in category.Products)
-            {
-                product.CategoryId = null; // Set the CategoryId of the related products to null to prevent orphaned records
-            }
             _db.Categories.Remove(category);
             _db.SaveChanges();
-            _logger.Info($"Category with ID {categoryId} deleted");
         }
         else
         {
-            _logger.Error($"No category found with ID: {categoryId}");
+            Console.WriteLine($"No category found with ID: {categoryId}");
+        }
+    }
+    public void DeleteCategoryByName(string categoryName)
+    {
+        var category = _db.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
+        if (category != null)
+        {
+            _db.Categories.Remove(category);
+            _db.SaveChanges();
+        }
+        else
+        {
+            Console.WriteLine($"No category found with name: {categoryName}");
         }
     }
 }

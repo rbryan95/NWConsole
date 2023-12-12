@@ -77,9 +77,17 @@ try
         }
         else if (choice == "6")
         {
-            Console.WriteLine("Enter Category ID:");
-            int categoryId = int.Parse(Console.ReadLine());
-            categoryService.DeleteCategory(categoryId);
+            Console.WriteLine("Enter Category ID or Name:");
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int categoryId))
+            {
+                categoryService.DeleteCategoryById(categoryId);
+            }
+            else
+            {
+                string categoryName = input;
+                categoryService.DeleteCategoryByName(categoryName);
+            }
         }
         else if (choice == "7")
         {
@@ -124,9 +132,17 @@ try
         }
         else if (choice == "11")
         {
-                Console.WriteLine("Enter Product ID:");
-                int productId = int.Parse(Console.ReadLine());
-                productService.DeleteProduct(productId);
+                Console.WriteLine("Enter Product ID or Name:");
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out int productId))
+                {
+                    productService.DeleteProductById(productId);
+                }
+                else
+                {
+                    string productName = input;
+                    productService.DeleteProductByName(productName);
+                }
          }
         Console.WriteLine();
     } while (choice.ToLower() != "q");
